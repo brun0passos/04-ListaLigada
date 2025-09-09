@@ -15,7 +15,7 @@ void menu();
 void inicializar();
 void exibirQuantidadeElementos();
 void exibirElementos();
-void inserirElemento();
+void inserirElemento();  
 void excluirElemento();
 void buscarElemento();
 NO* posicaoElemento(int numero);
@@ -144,14 +144,87 @@ void inserirElemento()
 }
 
 void excluirElemento()
-{
+{,      
+        int valor;
+		printf("Digite o valor a ser inserido: ");
+		scanf("%d", &valor);
+
+		if (posicaoElemento(valor) != NULL) {
+			printf("Elemento ja existe na lista. Nao sera inserido.\n");
+			return;  // não insere valor duplicado
+		}
+
+		NO* novo = (NO*)malloc(sizeof(NO));
+		novo->valor = valor;
+		novo->prox = NULL;
+
+		if (primeiro == NULL) {
+			primeiro = novo;
+		}
+		else {
+			NO* aux = primeiro;
+			while (aux->prox != NULL) {
+				aux = aux->prox;
+			}
+			aux->prox = novo;
+		}
+		printf("Elemento inserido com sucesso.\n");
+	}
+
 	
-}
 
 void buscarElemento()
-{
+{       
+	    int valor;
+		printf("Digite o valor a ser buscado: ");
+		scanf("%d", &valor);
+
+		NO* resultado = posicaoElemento(valor);
+		if (resultado != NULL) {
+			printf("ENCONTRADO\n");
+		}
+		else {
+			printf("ELEMENTO NAO ENCONTRADO\n");
+		}
+	}
+
 	
+void excluirElemento() {
+	int valor;
+	printf("Digite o valor a ser excluido: ");
+	scanf("%d", &valor);
+
+	NO* elemento = posicaoElemento(valor);
+	if (elemento == NULL) {
+		printf("ELEMENTO NAO ENCONTRADO\n");
+		return;
+	}
+
+	// Caso A: o elemento a ser excluído é o primeiro
+	if (primeiro->valor == valor) {
+		NO* temp = primeiro;
+		primeiro = primeiro->prox;
+		free(temp);
+		printf("Elemento excluido com sucesso.\n");
+		return;
+	}
+
+	// Caso B: elemento está no meio ou no fim da lista
+	NO* atual = primeiro->prox;
+	NO* anterior = primeiro;
+
+	while (atual != NULL && atual->valor != valor) {
+		anterior = atual;
+		atual = atual->prox;
+	}
+
+	if (atual != NULL) {
+		anterior->prox = atual->prox;
+		free(atual);
+		printf("Elemento excluido com sucesso.\n");
+	}
 }
+
 
 
 
